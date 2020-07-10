@@ -28,15 +28,13 @@ $toSent=stripslashes($toSent);
 $toSent=htmlspecialchars($toSent);
 }
 // адрес почты куда придет письмо
-$address="maksim1233@mail.ru";
+$address="maksim1233@gmail.com";
 // текст письма 
 $note_text="Тема : $urok \r\nИмя : $cows \r\n Email : $milk \r\n Дополнительная информация : $person, $toSent" ;
-
-if (isset($cows)  &&  isset ($sab) ) {
-mail($address,$urok,$note_text,"Content-type:text/plain; windows-1251"); 
-// сообщение после отправки формы
-    
-echo "Ваше письмо отправленно успешно. <br> Спасибо.";
+if (mail($address, "Заказ с сайта", $note_text,"From: maksim.zelenovskiy@gmail.com \r\n"))
+ {
+    echo "сообщение успешно отправлено";
+} else {
+    echo "при отправке сообщения возникли ошибки";
 }
-
 ?>
