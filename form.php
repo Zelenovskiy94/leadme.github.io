@@ -1,40 +1,52 @@
-
-<meta charset="utf-8"> 
 <?php
-$urok="Урок 22";
-error_reporting( E_ERROR );   //Отключение предупреждений и нотайсов (warning и notice) на сайте
-// создание переменных из полей формы		
-if (isset($_POST['cows']))			{$cows		= $_POST['cows'];		if ($cows == '')	{unset($cows);}}
-if (isset($_POST['milk']))		{$milk		= $_POST['milk'];		if ($milk == '')	{unset($milk);}}
-if (isset($_POST['person']))			{$person			= $_POST['person'];		if ($person == '')	{unset($person);}}
-if (isset($_POST['toSent']))			{$toSent			= $_POST['toSent'];		if ($toSent == '')	{unset($toSent);}}
-if (isset($_POST['sab']))			{$sab			= $_POST['sab'];		if ($sab == '')		{unset($sab);}}
-//стирание треугольных скобок из полей формы
-/* комментарий */
-if (isset($cows) ) {
-$cows=stripslashes($cows);
-$cows=htmlspecialchars($cows);
-}
-if (isset($milk) ) {
-$milk=stripslashes($milk);
-$milk=htmlspecialchars($milk);
-}
-if (isset($person) ) {
-$person=stripslashes($person);
-$person=htmlspecialchars($person);
-}
-if (isset($toSent) ) {
-$toSent=stripslashes($toSent);
-$toSent=htmlspecialchars($toSent);
-}
-// адрес почты куда придет письмо
-$address="maksim1233@gmail.com";
-// текст письма 
-$note_text="Тема : $urok \r\nИмя : $cows \r\n Email : $milk \r\n Дополнительная информация : $person, $toSent" ;
-if (mail($address, "Заказ с сайта", $note_text,"From: maksim.zelenovskiy@gmail.com \r\n"))
- {
-    echo "сообщение успешно отправлено";
+// Файлы phpmailer
+require 'PHPMailer.php';
+require 'SMTP.php';
+require 'Exception.php';
+
+// Переменные, которые отправляет пользователь
+// $cow = $_POST['cow'];
+// $milk = $_POST['milk'];
+// $person = $_POST['person'];
+// $toSent = $_POST['toSent'];
+
+// Формирование самого письма
+$title = "Заголовок письма";
+$body = "
+<h2>Новое письмо</h2>
+";
+
+// Настройки PHPMailer
+$mail = new PHPMailer\PHPMailer\PHPMailer();
+    $mail->isSMTP();   
+    $mail->CharSet = "UTF-8";
+    $mail->SMTPAuth   = true;
+    $mail->SMTPDebug = 2;
+    $mail->Debugoutput = function($str, $level) {$GLOBALS['status'][] = $str;};
+
+    // Настройки вашей почты
+    $mail->Host       = 'smtp.gmail.com'; // SMTP сервера вашей почты
+    $mail->Username   = 'maksim.zelenovskiy@gmail.com'; // Логин на почте
+    $mail->Password   = 'inavif73'; // Пароль на почте
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port       = 465;
+    $mail->setFrom('maksim.zelenovskiy@gmail.com', 'Максим'); // Адрес самой почты и имя отправителя
+
+    // Получатель письма
+    $mail->addAddress('maksim1233@mail.ru', 'hi');  
+
+    // Прикрипление файлов к письму
+// Отправка сообщения
+$mail->isHTML(true);
+$mail->Subject = $title;
+$mail->Body = $body;    
+
+// Проверяем отравленность сообщения
+if ($mail->send()) {
+    echo 'Отправлено';
 } else {
-    echo "при отправке сообщения возникли ошибки";
+    echo  "ошибка";
 }
+
+
 ?>
