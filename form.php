@@ -1,19 +1,19 @@
 <?php
-// Файлы phpmailer
 require 'PHPMailer.php';
 require 'SMTP.php';
 require 'Exception.php';
 
-// Переменные, которые отправляет пользователь
-// $cow = $_POST['cow'];
-// $milk = $_POST['milk'];
-// $person = $_POST['person'];
-// $toSent = $_POST['toSent'];
+$cow = $_POST['cow'];
+$milk = $_POST['milk'];
+$person = $_POST['person'];
+$toSent = $_POST['toSent'];
 
-// Формирование самого письма
-$title = "Заголовок письма";
+$title = "Данные пользователя";
 $body = "
-<h2>Новое письмо</h2>
+Количесвто коров: $cow <br>
+Количесвто молока: $milk <br>
+Специализация: $person <br>
+Контакт: $toSent <br>
 ";
 
 // Настройки PHPMailer
@@ -24,19 +24,16 @@ $mail = new PHPMailer\PHPMailer\PHPMailer();
     $mail->SMTPDebug = 2;
     $mail->Debugoutput = function($str, $level) {$GLOBALS['status'][] = $str;};
 
-    // Настройки вашей почты
-    $mail->Host       = 'smtp.gmail.com'; // SMTP сервера вашей почты
-    $mail->Username   = 'maksim.zelenovskiy@gmail.com'; // Логин на почте
-    $mail->Password   = 'inavif73'; // Пароль на почте
+    $mail->Host       = 'smtp.gmail.com'; 
+    $mail->Username   = 'maksim1233@gmail.com'; 
+    $mail->Password   = 'inavif73'; 
     $mail->SMTPSecure = 'ssl';
     $mail->Port       = 465;
-    $mail->setFrom('maksim.zelenovskiy@gmail.com', 'Максим'); // Адрес самой почты и имя отправителя
+    $mail->setFrom('maksim1233@gmail.com', 'Максим'); 
 
-    // Получатель письма
-    $mail->addAddress('maksim1233@mail.ru', 'hi');  
+   
+    $mail->addAddress('volohovich_project@leadme.agency', 'Test');  
 
-    // Прикрипление файлов к письму
-// Отправка сообщения
 $mail->isHTML(true);
 $mail->Subject = $title;
 $mail->Body = $body;    
@@ -47,6 +44,5 @@ if ($mail->send()) {
 } else {
     echo  "ошибка";
 }
-
 
 ?>
